@@ -22,10 +22,8 @@ This document clarifies which files are required for runtime, development, and r
 - `LICENSE` (MIT)
 - `.gitignore`
 
-## AI-Assistant Specific (Not Runtime Required)
+## Removed Optional Artifacts
 
-- `docs/guide/ai-assistant-skill.md` (formerly `SKILL.md`)
+- `SKILL.md` and its moved copy were removed from this repository.
 
-This file is only used when an AI coding assistant reads local skill instructions.
-It is not imported by application code, and deleting it will not affect runtime behavior.
-
+Reason: they are not runtime dependencies and would only add repository noise.

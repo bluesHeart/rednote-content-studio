@@ -68,7 +68,7 @@ python app.py --port 8000
 
 请看：`docs/guide/required-files.md`
 
-结论：`SKILL.md`（现位于 `docs/guide/ai-assistant-skill.md`）**不是运行必需文件**，仅供 AI 助手场景使用。
+结论：`SKILL.md` **不是运行必需文件**，已从仓库移除。
 
 ---
 
@@ -83,4 +83,3 @@ python app.py --port 8000
 
 - Issue: https://github.com/bluesHeart/rednote-content-studio/issues
 - PR: 欢迎直接提交
-

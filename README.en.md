@@ -68,7 +68,7 @@ Open: `http://127.0.0.1:8000`
 
 See: `docs/guide/required-files.md`
 
-In short: `SKILL.md` (now `docs/guide/ai-assistant-skill.md`) is **not required** for runtime; it is only for AI assistant workflows.
+In short: `SKILL.md` is **not required** for runtime and has been removed from this repository.
 
 ---
 
@@ -83,4 +83,3 @@ In short: `SKILL.md` (now `docs/guide/ai-assistant-skill.md`) is **not required*
 
 - Issues: https://github.com/bluesHeart/rednote-content-studio/issues
 - PRs are welcome
-
