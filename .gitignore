@@ -60,5 +60,4 @@ output/*
 # =========================
 # Local debug captures (do not commit)
 # =========================
-docs/archives/*
-!docs/archives/.gitkeep
+docs/archives/

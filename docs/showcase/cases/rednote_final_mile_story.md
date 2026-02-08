@@ -35,9 +35,9 @@
 
 先看两张拼接图（真实生成结果）：
 
-![Demo 卡片拼接 A（1-2页）](article_assets/21_cards_pair_clean_a.png)
+![Demo 卡片拼接 A（1-2页）](../article_assets/21_cards_pair_clean_a.png)
 
-![Demo 卡片拼接 B（3-9页）](article_assets/22_cards_pair_clean_b.png)
+![Demo 卡片拼接 B（3-9页）](../article_assets/22_cards_pair_clean_b.png)
 
 你会发现一个关键点：**图片是跟正文流动的，不是统一堆到页顶。**
 
@@ -66,9 +66,9 @@
 - 左到右：空白首页 → 粘贴 Markdown
 - 左到右：转换中进度 → 转换后卡片预览 + 最后一公里编辑区
 
-![Web 流程拼接 A](article_assets/18_web_flow_pair_clean_a.png)
+![Web 流程拼接 A](../article_assets/18_web_flow_pair_clean_a.png)
 
-![Web 流程拼接 B](article_assets/19_web_flow_pair_clean_b.png)
+![Web 流程拼接 B](../article_assets/19_web_flow_pair_clean_b.png)
 
 ---
 
@@ -90,7 +90,7 @@
 
 界面里这块就是“最后一公里微调”（左：块级编辑，右：单卡详情弹窗）：
 
-![最后一公里编辑与预览弹窗](article_assets/20_web_edit_pair_clean.png)
+![最后一公里编辑与预览弹窗](../article_assets/20_web_edit_pair_clean.png)
 
 ---
 
