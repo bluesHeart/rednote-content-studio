@@ -35,9 +35,9 @@
 
 先看两张拼接图（真实生成结果）：
 
-![Demo 卡片拼接 A（1-2页）](../article_assets/21_cards_pair_clean_a.png)
+![Demo 卡片拼接 A（1-2页）](https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/21_cards_pair_clean_a.png)
 
-![Demo 卡片拼接 B（3-9页）](../article_assets/22_cards_pair_clean_b.png)
+![Demo 卡片拼接 B（3-9页）](https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/22_cards_pair_clean_b.png)
 
 你会发现一个关键点：**图片是跟正文流动的，不是统一堆到页顶。**
 
@@ -66,9 +66,9 @@
 - 左到右：空白首页 → 粘贴 Markdown
 - 左到右：转换中进度 → 转换后卡片预览 + 最后一公里编辑区
 
-![Web 流程拼接 A](../article_assets/18_web_flow_pair_clean_a.png)
+![Web 流程拼接 A](https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/18_web_flow_pair_clean_a.png)
 
-![Web 流程拼接 B](../article_assets/19_web_flow_pair_clean_b.png)
+![Web 流程拼接 B](https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/19_web_flow_pair_clean_b.png)
 
 ---
 
@@ -90,7 +90,7 @@
 
 界面里这块就是“最后一公里微调”（左：块级编辑，右：单卡详情弹窗）：
 
-![最后一公里编辑与预览弹窗](../article_assets/20_web_edit_pair_clean.png)
+![最后一公里编辑与预览弹窗](https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/20_web_edit_pair_clean.png)
 
 ---
 
@@ -145,11 +145,11 @@
 
 ## 附：本次文章截图清单（均来自项目真实运行）
 
-- Web 流程拼接 A（首页 + 粘贴）：`docs/showcase/article_assets/18_web_flow_pair_clean_a.png`
-- Web 流程拼接 B（转换中 + 转换后）：`docs/showcase/article_assets/19_web_flow_pair_clean_b.png`
-- 最后一公里拼接（编辑区 + 单卡弹窗）：`docs/showcase/article_assets/20_web_edit_pair_clean.png`
-- Demo 卡片拼接 A（第 1-2 页）：`docs/showcase/article_assets/21_cards_pair_clean_a.png`
-- Demo 卡片拼接 B（第 3/9 页）：`docs/showcase/article_assets/22_cards_pair_clean_b.png`
+- Web 流程拼接 A（首页 + 粘贴）：https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/18_web_flow_pair_clean_a.png
+- Web 流程拼接 B（转换中 + 转换后）：https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/19_web_flow_pair_clean_b.png
+- 最后一公里拼接（编辑区 + 单卡弹窗）：https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/20_web_edit_pair_clean.png
+- Demo 卡片拼接 A（第 1-2 页）：https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/21_cards_pair_clean_a.png
+- Demo 卡片拼接 B（第 3/9 页）：https://cdn.jsdelivr.net/gh/bluesHeart/rednote-content-studio@main/docs/showcase/article_assets/22_cards_pair_clean_b.png
 
 ---
 
