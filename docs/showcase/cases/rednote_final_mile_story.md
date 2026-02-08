@@ -16,6 +16,10 @@
 
 这篇文章不讲空话，直接用真实截图讲清楚它怎么工作、为什么这么设计。
 
+> 开源仓库（GitHub）：https://github.com/bluesHeart/rednote-content-studio
+>
+> 如果你想直接上手，建议先 `Star` 再拉代码，后续版本迭代会持续推送。
+
 ---
 
 ## 先看成品：它不是“纯文字改写器”，而是“图文卡片生成链路”
@@ -147,4 +151,13 @@
 - Demo 卡片拼接 A（第 1-2 页）：`docs/showcase/article_assets/21_cards_pair_clean_a.png`
 - Demo 卡片拼接 B（第 3/9 页）：`docs/showcase/article_assets/22_cards_pair_clean_b.png`
 
-如果你愿意，我可以下一篇直接写“这套架构的技术拆解版”（接口、数据结构、可观测性、回滚策略）。
+---
+
+## 最后：如果这套思路对你有用
+
+欢迎直接到 GitHub 看代码、提 Issue、提 PR：
+
+- 仓库地址：https://github.com/bluesHeart/rednote-content-studio
+- 建议先 Star，后续版本更新你能第一时间看到
+
+如果你愿意，我下一篇可以直接写“这套架构的技术拆解版”（接口、数据结构、可观测性、回滚策略）。

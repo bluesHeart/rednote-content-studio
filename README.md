@@ -1,73 +1,35 @@
 # rednote-content-studio
 
-把 Markdown 内容（含图片）转换成 REDnote 可发布的图文卡片，支持 CLI 与 Web 双入口，并提供“最后一公里”可编辑中间层。
+把 Markdown 直接变成可发布的 REDnote 图文卡片，并把“最后一公里定稿权”交还给你。
+
+> 🚀 GitHub: https://github.com/bluesHeart/rednote-content-studio
+>
+> 如果这个项目对你有帮助，欢迎先点个 **Star**，我会持续迭代。
 
 ---
 
-## 项目定位
+## 为什么值得用
 
-- **输入**：Markdown 文本 + 图片引用（本地/远程）
-- **输出**：分页文案、单页 HTML/PNG、合并预览、结构化结果
-- **核心原则**：`LLM 负责生成，用户负责定稿`
-
-这不是“一次性改写器”，而是“可回滚、可约束、可局部重写”的内容生产链路。
-
----
-
-## 架构总览
-
-```text
-Markdown Input
-  -> markdown_parser          (结构解析)
-  -> image_analyzer           (图片语义分析，可多模态)
-  -> content_splitter         (分页规划)
-  -> rednote_formatter        (小红书风格格式化)
-  -> preview_renderer         (HTML/PNG 渲染)
-  -> editable_story layer     (块级编辑/锁定/局部重写)
-  -> output artifacts         (txt/html/png/json)
-```
-
-Web 端在上述流程外增加：任务状态管理、进度推送、文件上传、下载打包。
+- **不是一次性 AI 改写**：支持块级编辑、锁定、局部重写
+- **图文顺序可控**：图片按正文流动，不再乱序/堆顶
+- **双入口**：CLI 批处理 + Web 可视化操作
+- **工程化输出**：`txt/html/png/json` 全套产物
 
 ---
 
-## 目录结构（已整理）
+## 效果预览
 
-```text
-rednote-content-studio/
-├─ app.py                       # Web 启动入口
-├─ requirements.txt
-├─ .gitignore
-├─ README.md
-├─ scripts/
-│  ├─ main.py                   # CLI 入口
-│  ├─ agent.py                  # 主编排流程
-│  ├─ client.py                 # OpenAI 兼容客户端
-│  ├─ config_llm.py             # LLM 配置解析
-│  ├─ constants/                # 常量与字符库
-│  └─ core/                     # 解析/分页/排版/渲染核心模块
-├─ web/
-│  ├─ api.py                    # REST + WebSocket 接口
-│  ├─ editable_story.py         # 可编辑中间层模型与逻辑
-│  ├─ schemas.py                # API 数据结构
-│  ├─ session_manager.py        # 任务会话管理
-│  ├─ templates.py              # 视觉/语气模板
-│  └─ static/                   # 前端静态资源
-├─ docs/
-│  ├─ guide/                    # 使用与治理文档
-│  ├─ showcase/                 # 展示文章与素材
-│  ├─ adr/                      # 架构决策记录
-│  └─ archives/                 # 调试归档（默认忽略）
-├─ examples/
-│  └─ test_input.md             # 示例输入
-└─ output/
-   ├─ .gitkeep
-   └─ README.md                 # 运行时输出目录说明
-```
+![Demo Cards A](docs/showcase/article_assets/21_cards_pair_clean_a.png)
+
+![Demo Cards B](docs/showcase/article_assets/22_cards_pair_clean_b.png)
+
+完整案例文章（含 Web 操作截图）：
+
+- `docs/showcase/cases/rednote_final_mile_story.md`
 
 ---
 
-## 快速开始
+## 快速开始（3 分钟）
 
 ### 1) 安装依赖
 
@@ -75,124 +37,103 @@ rednote-content-studio/
 pip install -r requirements.txt
 ```
 
-### 2) 配置 LLM 环境变量
+### 2) 配置模型
 
-优先读取：
+必填（至少一个 API Key）：
 
-- `SKILL_LLM_API_KEY`
-- `SKILL_LLM_BASE_URL`（可选，默认 `https://api.openai.com/v1`）
-- `SKILL_LLM_MODEL`（可选，默认 `gpt-4o-mini`）
+- `SKILL_LLM_API_KEY`（或 `OPENAI_API_KEY`）
 
-兼容：
+可选：
 
-- `OPENAI_API_KEY`
-- `OPENAI_BASE_URL`
+- `SKILL_LLM_BASE_URL`（默认 `https://api.openai.com/v1`）
+- `SKILL_LLM_MODEL`（默认 `gpt-4o-mini`）
 
-PowerShell 示例：
+### 3) 运行
 
-```powershell
-$env:SKILL_LLM_API_KEY = "your-api-key"
-$env:SKILL_LLM_BASE_URL = "https://api.openai.com/v1"
-$env:SKILL_LLM_MODEL = "gpt-4o"
-```
-
----
-
-## CLI 用法
-
-```bash
-python scripts/main.py examples/test_input.md
-```
-
-常用参数：
+CLI：
 
 ```bash
 python scripts/main.py examples/test_input.md --output ./output
-python scripts/main.py examples/test_input.md --no-visual-feedback
-python scripts/main.py examples/test_input.md --max-iterations 5 -v
-python scripts/main.py examples/test_input.md --api-key "sk-..." --model "gpt-4o"
 ```
 
----
-
-## Web 用法
-
-启动服务：
+Web：
 
 ```bash
 python app.py --port 8000
 ```
 
-访问：`http://127.0.0.1:8000`
-
-Web 功能：
-
-- Markdown 粘贴/上传
-- 图片粘贴/上传并转为 Markdown 引用
-- 实时进度（WebSocket）
-- 分页预览与单页复制
-- 最后一公里编辑（块级编辑、锁定、局部重写、图片块顺序调整）
+打开：`http://127.0.0.1:8000`
 
 ---
 
-## 输出说明
+## 核心能力
 
-默认输出目录：`output/`（运行时生成，默认不入库）
+- Markdown 结构解析（标题/列表/引用/代码块/图片）
+- 多模态图片分析（语义 + 建议位置）
+- 智能分页（短页优先，阅读节奏友好）
+- REDnote 风格排版（语气模板 + 视觉模板）
+- 预览渲染（单页与合并）
+- 最后一公里编辑（`editable_story`）
 
-- `page_N.txt`：第 N 页文案
-- `preview_page_N.html`：第 N 页 HTML
-- `preview_page_N.png`：第 N 页图片
+---
+
+## 项目结构
+
+```text
+rednote-content-studio/
+├─ app.py
+├─ requirements.txt
+├─ scripts/                  # CLI 与核心流程
+├─ web/                      # API + 前端
+├─ docs/
+│  ├─ guide/
+│  ├─ showcase/
+│  ├─ adr/
+│  └─ archives/
+├─ examples/
+└─ output/
+```
+
+---
+
+## 输出产物
+
+- `page_N.txt`：可直接发布文案
+- `preview_page_N.html`：单页 HTML
+- `preview_page_N.png`：单页图片
 - `preview.html`：合并预览
 - `result.json`：结构化结果
 
 ---
 
-## Web API（核心）
+## 工程治理
 
-- `POST /api/convert`：创建转换任务
-- `GET /api/jobs/{job_id}/status`：查询状态
-- `WS /api/ws/{job_id}`：实时进度
-- `GET /api/jobs/{job_id}/preview`：合并预览
-- `GET /api/jobs/{job_id}/download`：下载结果包
-- `GET /api/jobs/{job_id}/editable-story`：读取可编辑中间层
-- `PUT /api/jobs/{job_id}/editable-story`：保存编辑结果
-- `POST /api/jobs/{job_id}/editable-story/regenerate`：局部重写当前页
-- `POST /api/jobs/{job_id}/editable-story/apply`：应用编辑并重渲染
-
----
-
-## 工程治理约定
-
-- `output/` 是运行时目录：不提交历史结果
-- `docs/archives/` 存放本地调试抓图：默认忽略
-- `docs/showcase/` 存放对外文章与配图素材
-- 示例输入放在 `examples/`
-- 根目录仅保留“入口 + 配置 + 文档"
-
-这套约定已经通过 `.gitignore` 固化，避免后续目录再次失控。
-
-配套清理命令：
+- 运行产物默认不入库（`output/`）
+- 调试归档默认不入库（`docs/archives/`）
+- 一键清理命令：
 
 ```bash
 python scripts/clean_workspace.py
 ```
 
-治理细则见：`docs/guide/workspace-governance.md`
-
-展示文章示例：`docs/showcase/cases/rednote_final_mile_story.md`
+治理文档：`docs/guide/workspace-governance.md`
 
 ---
 
-## 常见问题
+## 路线图（欢迎共建）
 
-- **空行被吞？** 使用盲文空格 `⠀`（U+2800）保留空行。
-- **转换慢？** 关闭视觉反馈 `--no-visual-feedback` 可提速。
-- **第三方模型兼容？** 只要兼容 OpenAI Chat Completions 即可。
+- [ ] Session 持久化（Redis/SQLite）
+- [ ] 更强的排版评估指标
+- [ ] CI（lint + smoke + docs link check）
+- [ ] Docker 一键部署
+
+欢迎提 Issue / PR：
+
+- https://github.com/bluesHeart/rednote-content-studio/issues
 
 ---
 
-## 下一步建议（架构师视角）
+## License
 
-- 为 `web/session_manager.py` 增加持久化后端（Redis/SQLite）
-- 为 Web 任务增加失败重试与可观测埋点（trace/job timeline）
-- 增加 CI 流水线（lint + smoke + docs link check）
+MIT
+
