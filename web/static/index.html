@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rednote-content-studio - 内容转 REDnote 图文卡片</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="app-header sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="logo-text">rednote-content-studio</span>
+                <span class="subtitle hidden" style="display:none" id="subtitle-lg">Content to REDnote Cards</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="subtitle">Content to REDnote Cards</span>
+                <button id="settings-btn" class="settings-icon" title="API 设置">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-6">
+        <!-- Editor -->
+        <section class="mb-4">
+            <div class="panel overflow-hidden">
+                <div class="panel-header flex items-center justify-between">
+                    <span class="panel-title">Markdown 内容</span>
+                    <label class="text-brand-link text-xs cursor-pointer">
+                        上传文件
+                        <input type="file" id="file-upload" accept=".md,.markdown,.txt" class="hidden">
+                    </label>
+                </div>
+                <textarea
+                    id="markdown-input"
+                    class="form-input w-full"
+                    style="border:none; border-radius:0; height:320px;"
+                    placeholder="在此粘贴 Markdown 内容（支持从 Word 粘贴带图片内容），或拖拽文件到此处..."
+                ></textarea>
+                <!-- Image strip -->
+                <div id="image-strip" class="hidden" style="border-top: 1px solid var(--border-light); padding: 8px 12px; background: var(--gray-50);">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-gray-400">已上传图片（将以 Markdown 引用插入）</span>
+                        <button id="clear-images-btn" class="text-xs text-red-500 cursor-pointer" style="background:none;border:none;">清空</button>
+                    </div>
+                    <div id="image-thumbnails" class="flex gap-2" style="overflow-x:auto; padding-bottom:4px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Template + Convert Bar -->
+        <section class="mb-4">
+            <div class="toolbar-bar">
+                <!-- Visual Templates -->
+                <div class="toolbar-group">
+                    <span class="toolbar-label">视觉</span>
+                    <div id="visual-templates" class="flex gap-2">
+                        <!-- JS populates -->
+                    </div>
+                </div>
+
+                <div class="toolbar-divider"></div>
+
+                <!-- Tone Templates -->
+                <div class="toolbar-group">
+                    <span class="toolbar-label">语气</span>
+                    <div id="tone-templates" class="flex gap-2">
+                        <!-- JS populates -->
+                    </div>
+                </div>
+
+                <div class="toolbar-divider"></div>
+
+                <!-- Visual Feedback Toggle -->
+                <div class="toolbar-group">
+                    <label class="flex items-center gap-2 cursor-pointer" style="white-space:nowrap;">
+                        <input type="checkbox" id="visual-feedback">
+                        <span class="text-xs text-gray-500">视觉反馈</span>
+                    </label>
+                </div>
+
+                <!-- Convert Button -->
+                <div style="margin-left:auto;">
+                    <button id="convert-btn" class="btn-primary" style="width:auto; padding: 10px 32px;">
+                        开始转换
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress -->
+        <section id="progress-section" class="mb-4 hidden">
+            <div class="panel p-5">
+                <div class="flex items-center justify-between mb-3">
+                    <span id="progress-text" class="text-sm text-gray-600">准备中...</span>
+                    <span id="progress-pct" class="text-sm font-mono text-gray-400">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preview -->
+        <section id="preview-section" class="mb-4 hidden">
+            <div class="panel p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="section-title" style="margin-bottom:0">卡片预览</div>
+                    <span id="preview-count" class="text-xs text-gray-400"></span>
+                </div>
+                <div id="cards-gallery" class="cards-gallery"></div>
+            </div>
+        </section>
+
+        <!-- Final-mile Editor -->
+        <section id="editor-section" class="mb-4 hidden">
+            <div class="panel p-5">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="section-title" style="margin-bottom:0">最后一公里微调</div>
+                    <div class="flex gap-2">
+                        <button id="editor-refresh-btn" class="btn-secondary">刷新</button>
+                        <button id="editor-apply-btn" class="btn-accent">应用并重渲染</button>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mb-3">
+                    <label class="toolbar-label" for="editor-page-select">页码</label>
+                    <select id="editor-page-select" class="form-input" style="max-width:140px; padding:6px 10px;"></select>
+                    <button id="editor-save-page-btn" class="btn-secondary">保存当前页</button>
+                    <button id="editor-rewrite-page-btn" class="btn-secondary">局部重写当前页</button>
+                </div>
+
+                <textarea
+                    id="editor-instruction"
+                    class="form-input mb-3"
+                    style="height:72px;"
+                    placeholder="可选：局部重写要求，例如：更口语、短句、不要营销腔"
+                ></textarea>
+
+                <div id="editor-blocks" class="editor-blocks"></div>
+            </div>
+        </section>
+
+        <!-- Download -->
+        <section id="download-section" class="mb-10 hidden">
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button id="download-zip-btn" class="btn-accent">下载全部 .zip</button>
+                <button id="copy-all-btn" class="btn-secondary">复制全部文本</button>
+                <button id="new-convert-btn" class="btn-secondary">新转换</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 modal-backdrop z-50 hidden items-center justify-center p-4" onclick="closeSettingsModal(event)">
+        <div class="modal-content" style="max-width:420px;" onclick="event.stopPropagation()">
+            <div class="p-4 border-b flex items-center justify-between">
+                <span class="text-sm font-semibold text-gray-700">API 设置</span>
+                <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-lg" style="background:none;border:none;">&times;</button>
+            </div>
+            <div class="p-5 space-y-4">
+                <div>
+                    <label class="form-label">API Key</label>
+                    <input type="password" id="api-key" class="form-input" placeholder="sk-...">
+                    <div id="api-key-hint" class="text-xs text-gray-400 mt-1"></div>
+                </div>
+                <div>
+                    <label class="form-label">Base URL</label>
+                    <input type="text" id="base-url" class="form-input" value="https://api.openai.com/v1">
+                </div>
+                <div>
+                    <label class="form-label">Model</label>
+                    <input type="text" id="model" class="form-input" value="gpt-4o-mini">
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <button onclick="closeSettingsModal()" class="btn-primary" style="font-size:0.8125rem; padding:8px 16px;">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Detail Modal -->
+    <div id="card-modal" class="fixed inset-0 modal-backdrop z-50 hidden items-center justify-center p-4" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="p-4 border-b flex items-center justify-between">
+                <span id="modal-title" class="text-sm font-semibold text-gray-700"></span>
+                <button onclick="document.getElementById('card-modal').classList.add('hidden');document.getElementById('card-modal').classList.remove('flex')" class="text-gray-400 hover:text-gray-600 text-lg" style="background:none;border:none;">&times;</button>
+            </div>
+            <div id="modal-body" class="p-4">
+                <iframe id="modal-iframe" class="w-full border-0" style="height:560px; border-radius: var(--radius-md);"></iframe>
+            </div>
+            <div class="p-4 border-t flex gap-2">
+                <button id="modal-copy-btn" class="btn-accent flex-1">复制文本</button>
+                <button id="modal-download-btn" class="btn-secondary flex-1">下载 PNG</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
